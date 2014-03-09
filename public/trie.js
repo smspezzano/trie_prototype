@@ -38,10 +38,16 @@ Trie.prototype.getWords = function(words, currentWord){
   // since a Trie doesn't know about its parents.
   words = words || [];
   currentWord = currentWord || "";
-  var results = this.find(currentWord);
-  for (var i = 0; i < results.length; i++){
-    var word = results[i];
-    words.push(word);
+
+  if (this.isWord){
+    words.push(currentWord);
+  }
+
+  for (var character in this.characters){
+   var word = currentWord + character;
+    if (this.characters[character].characters){
+      this.characters[character].getWords(words, word);
+    }
   }
   return words;
 };
