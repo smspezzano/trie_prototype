@@ -37,6 +37,7 @@ Trie.prototype.getWords = function(words, currentWord){
   // it will use currentWord as a prefix,
   // since a Trie doesn't know about its parents.
   words = words || [];
+  currentWord = currentWord || "";
   var results = this.find(currentWord);
   for (var i = 0; i < results.length; i++){
     var word = results[i];
