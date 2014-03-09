@@ -16,18 +16,17 @@ Trie.prototype.learn = function(word, index){
   // You must mark nodes which are the ends of words,
   // so that the words can be reconstructed later.
   index = index || 0;
-  //var character = word[index];
-  //var thisChar = this.characters[character]; 
+  var character = word[index];
 
   if(index >= word.length){
     this.isWord = true;
     return;
   }
-  if(this.characters[word[index]] === undefined){
-    this.characters[word[index]] = new Trie();
-    this.characters[word[index]].learn(word, index + 1);
+  if(this.characters[character] === undefined){
+    this.characters[character] = new Trie();
+    this.characters[character].learn(word, index + 1);
   } else {
-    this.characters[word[index]].learn(word, index + 1);
+    this.characters[character].learn(word, index + 1);
   }
   return true;
 };
@@ -37,6 +36,11 @@ Trie.prototype.getWords = function(words, currentWord){
   // contained in this Trie.
   // it will use currentWord as a prefix,
   // since a Trie doesn't know about its parents.
+  words = [];
+  if (this.find(currentWord)){
+    words.push(currentWord);
+  }
+  return words;
 };
 
 Trie.prototype.find = function(word, index){
@@ -44,6 +48,18 @@ Trie.prototype.find = function(word, index){
   // which corresponds to the end of the passed in word.
 
   // Be sure to consider what happens if the word is not in this Trie.
+  index = index || 0;
+  //var character = word[index];
+
+  if(this.characters[word[word.length]]){
+    return this;
+  }
+// word.length <= index
+  if(this.characters[word[index]] === undefined){
+    return false;
+  } 
+
+  return this.characters[word[index]].find(word, index + 1);
 };
 
 Trie.prototype.autoComplete = function(prefix){
