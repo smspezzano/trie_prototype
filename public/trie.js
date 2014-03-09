@@ -84,16 +84,9 @@ Trie.prototype.autoComplete = function(prefix){
   // It should use find and getWords.
   prefix = prefix || "";
   var results = this.find(prefix);
-  if (this.find(prefix)){
+  if (results){
     return results.getWords([], prefix);
   } else {
     return [];
   }
-  // for (var character in this.characters){
-  //   //if (this.characters[character].find(prefix)){
-  //     result = this.characters[character].find(prefix);
-  //     list = (result.getWords());
-  //   //}
-  // }
-  // return list;
 };
