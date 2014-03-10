@@ -10,17 +10,51 @@ window.App = {
     App.autocompleter = new Autocompleter();
     var ws = new WebSocket('ws://' + window.location.host + window.location.pathname);
     ws.onmessage = function(m) { 
-      autocompleter.add(m.data); 
+      App.autocompleter.add(m.data); 
     };
   }
 };
+
+App.Routers.Main = Backbone.Router.extend({
+  routes: {
+    ''        : 'main',
+    ':search' : 'main'
+  },
+
+  main: function(event){
+    var view = new App.Views.Index();
+    $("#container").append(view.render().el);
+  }
+
+
+
+});
+
+App.Views.Index = Backbone.View.extend({
+  id: 'search',
+
+  template: function(){ return "<input id=\"user_input\" type=\"text\">Search</input>";},
+
+  render: function(){
+    $(this.el).html(this.template());
+    return this;
+  },
+
+  events: {
+    "submit #user_input": "find"
+  },
+
+  find: function(){
+    var word = $("#search_field").val();
+    var results = App.autocompleter.complete(word);
+    $.each(results, function(index, value){
+      $("#titles").append("<li><a href=\"https://en.wikipedia.org/wiki/"+ value + "\">"+ value + "</li>");
+    });
+  }
+});
+
+
 $(document).ready(function(){
   App.initialize();
-    
-  $('#user_input').submit(function(){
-    console.log($('#user_input').val());
-  });
-
-
 });
 
