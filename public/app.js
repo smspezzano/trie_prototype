@@ -12,10 +12,15 @@ window.App = {
     ws.onmessage = function(m) { 
       autocompleter.add(m.data); 
     };
-
   }
 };
 $(document).ready(function(){
   App.initialize();
+    
+  $('#user_input').submit(function(){
+    console.log($('#user_input').val());
+  });
+
+
 });
 
